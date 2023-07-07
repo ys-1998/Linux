@@ -1,5 +1,6 @@
 ## 时间 ⏱ 
 
+### date hwclock timedatectl 修改时间查看修改时区
 ```
 查看时间
 date -R
@@ -30,4 +31,46 @@ cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 同步硬件时间到系统时间
 hwclock -s
 ```
+
+### NTP（Network Time Protocol）同步时间
+
+1. 安装NTP软件：首先，确保您的系统已经安装了NTP软件。在CentOS中，可以使用以下命令进行安装：
+
+```
+sudo yum install ntp
+```
+
+2. 配置NTP服务器：打开NTP配置文件 `/etc/ntp.conf`，使用文本编辑器进行编辑。您可以使用以下命令打开该文件：
+
+```
+sudo vi /etc/ntp.conf
+```
+
+在配置文件中，您可以添加或修改NTP服务器的地址。根据您的地理位置，您可以选择使用全球公共NTP服务器，例如 `pool.ntp.org`，或者使用特定的NTP服务器地址。在配置文件中找到 `server` 行，并将其修改为所需的NTP服务器地址。例如：
+
+```
+server pool.ntp.org 注意这个地址可以换成119.28.183.184
+```
+
+3. 启动NTP服务：使用以下命令启动NTP服务：
+
+```
+sudo systemctl start ntpd
+```
+
+4. 设置开机启动：要确保NTP服务在系统启动时自动启动，可以使用以下命令进行设置：
+
+```
+sudo systemctl enable ntpd
+```
+
+5. 验证NTP同步：等待一段时间后，使用以下命令检查NTP同步状态：
+
+```
+sudo ntpq -p
+```
+
+该命令将显示与您配置的NTP服务器之间的同步状态和相关信息。
+
+请注意，NTP同步可能需要一些时间才能生效，因为NTP客户端需要与NTP服务器进行时间同步和校准。请耐心等待一段时间，并检查同步状态。
 
